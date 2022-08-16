@@ -27,7 +27,7 @@ class BookingHistoryScreen extends StatelessWidget {
               ),
               const SizedBox(
                 height: 50,
-                child: const TabBar(
+                child: TabBar(
                   labelColor: primaryColor,
                   tabs: [
                     Tab(
@@ -42,13 +42,13 @@ class BookingHistoryScreen extends StatelessWidget {
 
               // create widgets for each tab bar here
               const Expanded(
-                child: const TabBarView(
+                child: TabBarView(
                   children: [
                     // first tab bar view widget
                     UpcomingBookingTab(),
 
                     // second tab bar viiew widget
-                    const CompletedBookingTab()
+                    CompletedBookingTab()
                   ],
                 ),
               ),

@@ -1,4 +1,3 @@
-import 'package:printing/printing.dart';
 import 'package:http/http.dart' as http;
 
 List<Map<String, String>> servicesList = [

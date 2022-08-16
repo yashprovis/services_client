@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../widgets/sc_text.dart';
+import '../address.dart';
 import '../profile/edit_profile.dart';
 import '../profile/help_support.dart';
 import '../profile/terms_conditions.dart';
@@ -10,6 +11,11 @@ class ProfileScreen extends StatelessWidget {
   const ProfileScreen({Key? key}) : super(key: key);
 
   static const List profileItems = [
+    {
+      "name": "Address",
+      "route": AddressScreen.routeName,
+      "icon": CupertinoIcons.map
+    },
     {
       "name": "Help and Support",
       "route": HelpSupport.routeName,
@@ -100,7 +106,7 @@ class ProfileScreen extends StatelessWidget {
                 itemBuilder: (context, index) {
                   return ListTile(
                     onTap: () {
-                      if (index == 2) {
+                      if (index == 3) {
                         return;
                       }
                       Navigator.of(context)

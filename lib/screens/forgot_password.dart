@@ -60,7 +60,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                       top: 20,
                       child: GestureDetector(
                         onTap: () => Navigator.of(context).pop(),
-                        child: Icon(
+                        child: const Icon(
                           Icons.arrow_back_ios_new_rounded,
                           size: 24,
                           color: Colors.white,
@@ -79,8 +79,8 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 key: forgotPassFormKey,
                 child: Column(
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.only(top: 12),
+                    const Padding(
+                      padding: EdgeInsets.only(top: 12),
                       child: ScText(
                           "Please provide your account email address to receive an email to reset your password.",
                           weight: FontWeight.w300,

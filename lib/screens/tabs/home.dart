@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:services_client/dummt.dart';
+import 'package:services_client/screens/worker_details.dart';
+import 'package:services_client/screens/worker_list.dart';
 import 'package:services_client/widgets/sc_button.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:services_client/widgets/sc_text.dart';
@@ -46,8 +48,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     children: [
                       Row(
                         children: [
-                          Icon(Icons.map_outlined),
-                          SizedBox(width: 10),
+                          const Icon(Icons.map_outlined),
+                          const SizedBox(width: 10),
                           ScText(selectedCity ?? "Pick work location"),
                         ],
                       ),
@@ -98,27 +100,33 @@ class _HomeScreenState extends State<HomeScreen> {
                 mainAxisSpacing: 8,
                 crossAxisSpacing: 8),
             itemBuilder: (ctx, i) {
-              return Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  border: Border.all(width: .3),
-                  color: Colors.white,
-                ),
-                child: Column(
-                  children: [
-                    Container(
-                      height: 78,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          image: DecorationImage(
-                              fit: BoxFit.cover,
-                              image: AssetImage(servicesList[i]["image"]!))),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8),
-                      child: ScText(servicesList[i]["name"]!, size: 12),
-                    )
-                  ],
+              return InkWell(
+                onTap: () {
+                  Navigator.of(context)
+                      .pushNamed(WorkerList.routeName, arguments: "id");
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(width: .3),
+                    color: Colors.white,
+                  ),
+                  child: Column(
+                    children: [
+                      Container(
+                        height: 78,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            image: DecorationImage(
+                                fit: BoxFit.cover,
+                                image: AssetImage(servicesList[i]["image"]!))),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8),
+                        child: ScText(servicesList[i]["name"]!, size: 12),
+                      )
+                    ],
+                  ),
                 ),
               );
             }),
@@ -139,6 +147,10 @@ class _HomeScreenState extends State<HomeScreen> {
               return Padding(
                 padding: const EdgeInsets.symmetric(vertical: 5),
                 child: ListTile(
+                    onTap: () {
+                      Navigator.of(context).pushNamed(WorkerDetails.routeName,
+                          arguments: i.toString());
+                    },
                     tileColor: Colors.grey[200],
                     leading: Container(
                       width: 78,

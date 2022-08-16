@@ -90,18 +90,18 @@ class BookingScreen extends StatelessWidget {
                             padding: const EdgeInsets.symmetric(vertical: 3),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                const Text(
+                              children: const [
+                                Text(
                                   "Contact",
                                   style: TextStyle(
                                       color: primaryColor,
                                       fontWeight: FontWeight.w500),
                                 ),
-                                const Padding(
+                                Padding(
                                   padding: EdgeInsets.only(left: 20, right: 4),
-                                  child: const Text(
+                                  child: Text(
                                     "Cancel",
-                                    style: const TextStyle(
+                                    style: TextStyle(
                                         color: Colors.red,
                                         fontWeight: FontWeight.w500),
                                   ),

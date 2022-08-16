@@ -7,6 +7,7 @@ import '../screens/login.dart';
 import '../screens/profile/edit_profile.dart';
 import '../screens/profile/help_support.dart';
 import '../screens/profile/terms_conditions.dart';
+import '../screens/ratings.dart';
 import '../screens/register.dart';
 import '../screens/tabs.dart';
 import '../screens/worker_details.dart';
@@ -47,7 +48,7 @@ class RouteGenerator {
         );
       case TermsConditions.routeName:
         return MaterialPageRoute(
-          builder: (context) => TermsConditions(),
+          builder: (context) => const TermsConditions(),
         );
       case HelpSupport.routeName:
         return MaterialPageRoute(
@@ -61,6 +62,8 @@ class RouteGenerator {
         return MaterialPageRoute(
           builder: (context) => WorkerDetails(workerId: args as String),
         );
+      case RatingsScreen.routeName:
+        return MaterialPageRoute(builder: (context) => RatingsScreen());
       // case SearchScreen.routeName:
       //   return MaterialPageRoute(
       //     builder: (context) => SearchScreen(),

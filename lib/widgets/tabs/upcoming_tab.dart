@@ -60,7 +60,7 @@ class UpcomingBookingTab extends StatelessWidget {
                     const ScText("Customer: Ravi Provis", size: 14),
                     const Padding(
                       padding: EdgeInsets.symmetric(vertical: 4),
-                      child: const ScText("Amount: ₹4,000.00", size: 14),
+                      child: ScText("Amount: ₹4,000.00", size: 14),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 2, bottom: 2),
@@ -74,14 +74,14 @@ class UpcomingBookingTab extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(vertical: 3),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          const Text(
+                        children: const [
+                          Text(
                             "Contact",
-                            style: const TextStyle(
+                            style: TextStyle(
                                 color: primaryColor,
                                 fontWeight: FontWeight.w500),
                           ),
-                          const Padding(
+                          Padding(
                             padding: EdgeInsets.only(left: 20, right: 4),
                             child: Text(
                               "Cancel",

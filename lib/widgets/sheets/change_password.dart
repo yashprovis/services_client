@@ -37,8 +37,8 @@ class _ChangePasswordSheetState extends State<ChangePasswordSheet> {
     return Padding(
       padding: MediaQuery.of(context).viewInsets,
       child: AnimatedContainer(
-          duration: Duration(milliseconds: 400),
-          padding: EdgeInsets.all(15),
+          duration: const Duration(milliseconds: 400),
+          padding: const EdgeInsets.all(15),
           height: 330,
           decoration: const BoxDecoration(
               color: Colors.white,
@@ -52,8 +52,8 @@ class _ChangePasswordSheetState extends State<ChangePasswordSheet> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
+                  const Padding(
+                    padding: EdgeInsets.all(8.0),
                     child: ScText(
                       "Change Password",
                       size: 18,
@@ -63,10 +63,10 @@ class _ChangePasswordSheetState extends State<ChangePasswordSheet> {
                   ),
                   GestureDetector(
                       onTap: () => Navigator.of(context).pop(),
-                      child: Icon(Icons.close))
+                      child: const Icon(Icons.close))
                 ],
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               ScTextField(
                 controller: oldPassController,
                 hintText: "Old Password *".toUpperCase(),
@@ -92,7 +92,7 @@ class _ChangePasswordSheetState extends State<ChangePasswordSheet> {
                   });
                 },
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               ScButton(
                   height: 44,
                   isLoading: isLoading,
@@ -116,7 +116,7 @@ class _ChangePasswordSheetState extends State<ChangePasswordSheet> {
                   }),
               SizedBox(height: resultString == null ? 0 : 12),
               resultString == null
-                  ? SizedBox()
+                  ? const SizedBox()
                   : Center(
                       child: ScText(
                         "*$resultString",

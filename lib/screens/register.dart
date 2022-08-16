@@ -68,7 +68,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       margin: const EdgeInsets.only(
                         top: 80,
                       ),
-                      padding: EdgeInsets.only(
+                      padding: const EdgeInsets.only(
                         top: 20,
                       ),
                       child: Padding(

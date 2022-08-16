@@ -61,7 +61,7 @@ class CompletedBookingTab extends StatelessWidget {
                     const ScText("Customer: Ravi Provis", size: 14),
                     const Padding(
                       padding: EdgeInsets.symmetric(vertical: 4),
-                      child: const ScText("Amount: ₹4,000.00", size: 14),
+                      child: ScText("Amount: ₹4,000.00", size: 14),
                     ),
                     RatingBar.builder(
                       initialRating: index + 1,

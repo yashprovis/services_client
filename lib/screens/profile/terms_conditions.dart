@@ -19,14 +19,14 @@ class TermsConditions extends StatelessWidget {
                   children: [
                     GestureDetector(
                       onTap: () => Navigator.of(context).pop(),
-                      child: Icon(
+                      child: const Icon(
                         Icons.arrow_back_ios_new_rounded,
                         size: 24,
                         //color: Colors.white,
                       ),
                     ),
-                    SizedBox(width: 16),
-                    ScText(
+                    const SizedBox(width: 16),
+                    const ScText(
                       "Terms and Conditions",
                       // color: Colors.white,
                       size: 20,
