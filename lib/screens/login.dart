@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:printing/printing.dart';
-import 'package:services_client/dummt.dart';
+
 import 'package:services_client/screens/register.dart';
 import 'package:services_client/screens/tabs.dart';
 
+import '../services/user_service.dart';
 import '../widgets/sc_button.dart';
 import '../widgets/sc_scaffold.dart';
 import '../widgets/sc_text.dart';
@@ -29,7 +29,8 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return ScScaffold(
-      body: Column(
+        body: SingleChildScrollView(
+      child: Column(
         // crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Padding(
@@ -115,24 +116,17 @@ class _LoginScreenState extends State<LoginScreen> {
                             isLoading: isLoading,
                             text: "SIGN IN",
                             func: () async {
-                              // if (loginFormKey.currentState!.validate()) {
-                              //   setState(() {
-                              //     isLoading = true;
-                              //   });
-                              //   try {
-                              //     UserService()
-                              //         .loginUser(
-                              //             email: emailController.text,
-                              //             password: passwordController.text,
-                              //             context: context)
-                              //         .whenComplete(() => setState(() {
-                              //               isLoading = false;
-                              //             }));
-                              //   } catch (e) {}
-                              // }
-                              //      printPdf();
-                              Navigator.of(context)
-                                  .pushReplacementNamed(TabsScreen.routeName);
+                              if (loginFormKey.currentState!.validate()) {
+                                setState(() {
+                                  isLoading = true;
+                                });
+                                try {
+                                  UserService().loginUser(
+                                      email: emailController.text,
+                                      password: passwordController.text,
+                                      context: context);
+                                } catch (e) {}
+                              }
                             }),
                         Padding(
                           padding: const EdgeInsets.only(top: 24, bottom: 8),
@@ -178,6 +172,6 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
         ],
       ),
-    );
+    ));
   }
 }

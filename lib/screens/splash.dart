@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:services_client/screens/tabs.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import '../constants.dart';
 import '../widgets/sc_scaffold.dart';
 import 'login.dart';
 
@@ -17,14 +20,14 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   init() async {
-    // User? user = FirebaseAuth.instance.currentUser;
-    // if (user == null) {
-    Future.delayed(const Duration(seconds: 3)).whenComplete(() =>
-        Navigator.of(context).pushReplacementNamed(LoginScreen.routeName));
-    // } else {
-    //   Future.delayed(const Duration(seconds: 3)).whenComplete(() =>
-    //       Navigator.of(context).pushReplacementNamed(TabsScreen.routeName));
-    // }
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if (prefs.containsKey(tokenPref) && prefs.getString(tokenPref) != "") {
+      Future.delayed(const Duration(seconds: 3)).whenComplete(() =>
+          Navigator.of(context).pushReplacementNamed(TabsScreen.routeName));
+    } else {
+      Future.delayed(const Duration(seconds: 3)).whenComplete(() =>
+          Navigator.of(context).pushReplacementNamed(LoginScreen.routeName));
+    }
   }
 
   @override

@@ -1,7 +1,7 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 import '../constants.dart';
+import '../services/user_service.dart';
 import '../widgets/sc_button.dart';
 import '../widgets/sc_scaffold.dart';
 import '../widgets/sc_text.dart';
@@ -134,6 +134,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                       isPassword: true,
                                       node: passwordNode,
                                     ),
+                                    const SizedBox(height: 10),
                                     const Padding(
                                       padding: EdgeInsets.symmetric(
                                           horizontal: 8.0, vertical: 4),
@@ -175,27 +176,31 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                             )),
                                       ],
                                     ),
+                                    const SizedBox(height: 10),
                                     ScButton(
                                         isLoading: isLoading,
                                         text: "REGISTER",
                                         func: () {
-                                          // if (registerFormKey.currentState!.validate()) {
-                                          //   setState(() {
-                                          //     isLoading = true;
-                                          //   });
-                                          //   try {
-                                          //     UserService().createUser(
-                                          //         email: emailController.text,
-                                          //         password: passwordController.text,
-                                          //         name: nameController.text,
-                                          //         phone: phoneController.text,
-                                          //         context: context);
-                                          //   } catch (e) {
-                                          //     setState(() {
-                                          //       isLoading = false;
-                                          //     });
-                                          //   }
-                                          // }
+                                          if (registerFormKey.currentState!
+                                              .validate()) {
+                                            setState(() {
+                                              isLoading = true;
+                                            });
+                                            try {
+                                              UserService().createUser(
+                                                  email: emailController.text,
+                                                  password:
+                                                      passwordController.text,
+                                                  name: nameController.text,
+                                                  phone: phoneController.text,
+                                                  gender: gender!,
+                                                  context: context);
+                                            } catch (e) {
+                                              setState(() {
+                                                isLoading = false;
+                                              });
+                                            }
+                                          }
                                         }),
                                     Padding(
                                       padding: const EdgeInsets.only(

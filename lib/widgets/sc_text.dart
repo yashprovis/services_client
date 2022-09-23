@@ -7,9 +7,18 @@ class ScText extends StatelessWidget {
   final Color? color;
   final TextAlign? align;
   final int? maxLines;
+  final double? spacing;
+  final double? height;
 
   const ScText(this.text,
-      {Key? key, this.size, this.weight, this.color, this.align, this.maxLines})
+      {Key? key,
+      this.size,
+      this.weight,
+      this.color,
+      this.align,
+      this.maxLines,
+      this.spacing,
+      this.height})
       : super(key: key);
 
   @override
@@ -18,7 +27,8 @@ class ScText extends StatelessWidget {
       text,
       textAlign: align,
       style: TextStyle(
-          letterSpacing: 1.5,
+          height: height,
+          letterSpacing: spacing ?? 1.5,
           color: color ?? Colors.black,
           fontWeight: weight ?? FontWeight.w400,
           fontSize: size ?? 16),

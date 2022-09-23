@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:services_client/provider/booking_provider.dart';
 import 'package:services_client/provider/tabs_provider.dart';
+import 'package:services_client/provider/user_provider.dart';
 import 'package:services_client/screens/splash.dart';
 
 import 'helpers/routes.dart';
@@ -8,7 +10,6 @@ import 'helpers/routes.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Plugin must be initialized before using
 
   runApp(const MyApp());
 }
@@ -38,6 +39,12 @@ class MyApp extends StatelessWidget {
         providers: [
           ChangeNotifierProvider(
             create: (_) => TabsProvider(),
+          ),
+          ChangeNotifierProvider(
+            create: (_) => UserProvider(),
+          ),
+          ChangeNotifierProvider(
+            create: (_) => BookingProvider(),
           ),
         ],
         child: MaterialApp(

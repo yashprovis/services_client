@@ -1,17 +1,21 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:services_client/screens/book_worker.dart';
 import 'package:services_client/screens/worker_details.dart';
+import 'package:services_client/services/worker_service.dart';
 
 import '../constants.dart';
-import '../dummt.dart';
+
+import '../provider/user_provider.dart';
 import '../widgets/sc_button.dart';
 import '../widgets/sc_text.dart';
 
 class WorkerList extends StatefulWidget {
   static const routeName = "/workerList";
-  final String caetgoryId;
-  const WorkerList({Key? key, required this.caetgoryId}) : super(key: key);
+  final String categoryName;
+  const WorkerList({Key? key, required this.categoryName}) : super(key: key);
 
   @override
   State<WorkerList> createState() => _WorkerListState();
@@ -20,8 +24,27 @@ class WorkerList extends StatefulWidget {
 class _WorkerListState extends State<WorkerList> {
   List sortItems = ['Lowest Price', 'Highest Price'];
   String? selectedSortItem;
+  List? workers;
+  @override
+  void initState() {
+    init();
+    super.initState();
+  }
+
+  init() async {
+    UserProvider userProvider =
+        Provider.of<UserProvider>(context, listen: false);
+    Map body = {"workingSpecialisation": widget.categoryName};
+    if (userProvider.getSelectedCity != null) {
+      body["workingCity"] = userProvider.getSelectedCity;
+    }
+    workers = await WorkerService().fetchCategoryWorkers(body);
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
+    UserProvider userProvider = Provider.of<UserProvider>(context);
     return Scaffold(
         backgroundColor: Colors.white,
         body: Padding(
@@ -40,10 +63,10 @@ class _WorkerListState extends State<WorkerList> {
                       ),
                     ),
                     const SizedBox(width: 16),
-                    const ScText(
-                      "Top Professionals",
+                    ScText(
+                      "${widget.categoryName} ${userProvider.selectedCity == null ? "" : "in ${userProvider.selectedCity!}"}",
                       // color: Colors.white,
-                      size: 20,
+                      size: 19,
                       //   weight: FontWeight.w500,
                     ),
                   ],
@@ -146,46 +169,84 @@ class _WorkerListState extends State<WorkerList> {
                       ),
                     ],
                   )),
-              ListView.builder(
-                  padding: const EdgeInsets.all(20),
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: 4,
-                  itemBuilder: (ctx, i) {
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 5),
-                      child: ListTile(
-                          onTap: () {
-                            Navigator.of(context).pushNamed(
-                                WorkerDetails.routeName,
-                                arguments: i.toString());
-                          },
-                          tileColor: Colors.grey[200],
-                          leading: Container(
-                            width: 78,
-                            height: 80,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                image: DecorationImage(
-                                    fit: BoxFit.cover,
-                                    image:
-                                        AssetImage(servicesList[i]["image"]!))),
-                          ),
-                          title: const ScText("Elon Musk", size: 14),
-                          trailing: ScButton(
-                              text: "Book",
-                              func: () {
-                                Navigator.of(context).pushNamed(
-                                    WorkerList.routeName,
-                                    arguments: "id");
-                              },
-                              textSize: 14,
-                              isLoading: false,
-                              width: 60,
-                              height: 30),
-                          subtitle: const ScText("Head Chef", size: 12)),
-                    );
-                  }),
+              workers == null
+                  ? SizedBox(
+                      height: MediaQuery.of(context).size.height - 220,
+                      child: const Center(child: CircularProgressIndicator()))
+                  : workers!.isEmpty
+                      ? SizedBox(
+                          height: MediaQuery.of(context).size.height - 220,
+                          child: Center(
+                              child: Padding(
+                            padding: const EdgeInsets.all(20),
+                            child: ScText(
+                              "No ${widget.categoryName} professionals found ${userProvider.selectedCity == null ? "" : "in ${userProvider.selectedCity!}"}",
+                              align: TextAlign.center,
+                              size: 18,
+                              height: 1.5,
+                              color: primaryColor,
+                              weight: FontWeight.w500,
+                            ),
+                          )))
+                      : ListView.builder(
+                          padding: const EdgeInsets.all(20),
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: workers!.length,
+                          itemBuilder: (ctx, i) {
+                            return Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 5),
+                              child: ListTile(
+                                  contentPadding:
+                                      const EdgeInsets.only(left: 2, right: 16),
+                                  onTap: () {
+                                    Navigator.of(context).pushNamed(
+                                        WorkerDetails.routeName,
+                                        arguments: workers![i]);
+                                  },
+                                  tileColor: Colors.grey[200],
+                                  leading: Container(
+                                    width: 78,
+                                    height: 80,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        image: (workers![i].image != "")
+                                            ? DecorationImage(
+                                                fit: BoxFit.cover,
+                                                image: AssetImage(
+                                                    workers![i].image))
+                                            : null),
+                                    child: (workers![i].image != "")
+                                        ? const SizedBox()
+                                        : const CircleAvatar(
+                                            child: Icon(
+                                              Icons.person_outline,
+                                              size: 28,
+                                            ),
+                                          ),
+                                  ),
+                                  horizontalTitleGap: 0,
+                                  title: SizedBox(
+                                      width: MediaQuery.of(context).size.width -
+                                          100,
+                                      child:
+                                          ScText(workers![i].name, size: 14)),
+                                  trailing: ScButton(
+                                      text: "Book",
+                                      func: () {
+                                        Navigator.of(context).pushNamed(
+                                            BookWorker.routeName,
+                                            arguments: workers![i]);
+                                      },
+                                      textSize: 14,
+                                      isLoading: false,
+                                      width: 60,
+                                      height: 30),
+                                  subtitle: ScText(
+                                      workers![i].workingSpecialisation,
+                                      size: 12)),
+                            );
+                          }),
             ])));
   }
 }

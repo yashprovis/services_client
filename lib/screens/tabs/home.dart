@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:services_client/dummt.dart';
+import 'package:provider/provider.dart';
+import 'package:services_client/models/worker_model.dart';
+import 'package:services_client/provider/user_provider.dart';
 import 'package:services_client/screens/worker_details.dart';
 import 'package:services_client/screens/worker_list.dart';
 import 'package:services_client/widgets/sc_button.dart';
@@ -7,6 +9,8 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:services_client/widgets/sc_text.dart';
 
 import '../../constants.dart';
+import '../../services/worker_service.dart';
+import '../book_worker.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -24,8 +28,22 @@ class _HomeScreenState extends State<HomeScreen> {
     "Delhi"
   ];
   String? selectedCity;
+  TextEditingController cityController = TextEditingController();
+  List<Worker>? topRatedWorkers;
+  @override
+  void initState() {
+    init();
+    super.initState();
+  }
+
+  init() async {
+    topRatedWorkers = await WorkerService().fetchTopRatedWorkers();
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
+    UserProvider userProvider = Provider.of<UserProvider>(context);
     return Scaffold(
         body: ListView(
       children: [
@@ -50,7 +68,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         children: [
                           const Icon(Icons.map_outlined),
                           const SizedBox(width: 10),
-                          ScText(selectedCity ?? "Pick work location"),
+                          ScText(selectedCity ??
+                              userProvider.getSelectedCity ??
+                              "Pick work location"),
                         ],
                       ),
                       const Icon(Icons.arrow_drop_down, color: primaryColor)
@@ -70,10 +90,39 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 );
               }).toList(),
+              searchController: cityController,
+              searchMatchFn: (item, searchValue) {
+                return (item.value
+                    .toString()
+                    .toLowerCase()
+                    .contains(searchValue.toLowerCase()));
+              },
               onChanged: (value) {
                 selectedCity = value as String;
+                userProvider.updateCity(selectedCity);
                 setState(() {});
               },
+              searchInnerWidget: Padding(
+                padding: const EdgeInsets.only(
+                  top: 8,
+                  bottom: 4,
+                  right: 8,
+                  left: 8,
+                ),
+                child: TextFormField(
+                  controller: cityController,
+                  decoration: const InputDecoration(
+                    isDense: true,
+                    contentPadding: EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 8,
+                    ),
+                    hintText: 'Search for a city...',
+                    hintStyle: TextStyle(
+                        color: primaryColor, fontSize: 12, letterSpacing: 1.3),
+                  ),
+                ),
+              ),
               buttonHeight: 40,
               buttonWidth: 240,
               itemHeight: 40,
@@ -102,8 +151,8 @@ class _HomeScreenState extends State<HomeScreen> {
             itemBuilder: (ctx, i) {
               return InkWell(
                 onTap: () {
-                  Navigator.of(context)
-                      .pushNamed(WorkerList.routeName, arguments: "id");
+                  Navigator.of(context).pushNamed(WorkerList.routeName,
+                      arguments: servicesList[i]["name"]!);
                 },
                 child: Container(
                   decoration: BoxDecoration(
@@ -142,14 +191,15 @@ class _HomeScreenState extends State<HomeScreen> {
             padding: const EdgeInsets.all(20),
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
-            itemCount: 4,
+            itemCount: topRatedWorkers == null ? 0 : topRatedWorkers!.length,
             itemBuilder: (ctx, i) {
               return Padding(
                 padding: const EdgeInsets.symmetric(vertical: 5),
                 child: ListTile(
+                    contentPadding: const EdgeInsets.only(left: 2, right: 16),
                     onTap: () {
                       Navigator.of(context).pushNamed(WorkerDetails.routeName,
-                          arguments: i.toString());
+                          arguments: topRatedWorkers![i]);
                     },
                     tileColor: Colors.grey[200],
                     leading: Container(
@@ -157,19 +207,36 @@ class _HomeScreenState extends State<HomeScreen> {
                       height: 80,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
-                          image: DecorationImage(
-                              fit: BoxFit.cover,
-                              image: AssetImage(servicesList[i]["image"]!))),
+                          image: (topRatedWorkers![i].image != "")
+                              ? DecorationImage(
+                                  fit: BoxFit.cover,
+                                  image: AssetImage(topRatedWorkers![i].image))
+                              : null),
+                      child: (topRatedWorkers![i].image != "")
+                          ? const SizedBox()
+                          : const CircleAvatar(
+                              child: Icon(
+                                Icons.person_outline,
+                                size: 28,
+                              ),
+                            ),
                     ),
-                    title: const ScText("Elon Musk", size: 14),
+                    horizontalTitleGap: 0,
+                    title: SizedBox(
+                        width: MediaQuery.of(context).size.width - 100,
+                        child: ScText(topRatedWorkers![i].name, size: 14)),
                     trailing: ScButton(
                         text: "Book",
-                        func: () {},
+                        func: () {
+                          Navigator.of(context).pushNamed(BookWorker.routeName,
+                              arguments: topRatedWorkers![i]);
+                        },
                         textSize: 14,
                         isLoading: false,
                         width: 60,
                         height: 30),
-                    subtitle: const ScText("Head Chef", size: 12)),
+                    subtitle: ScText(topRatedWorkers![i].workingSpecialisation,
+                        size: 12)),
               );
             }),
       ],

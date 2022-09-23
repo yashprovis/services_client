@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:services_client/models/booking_model.dart';
+import 'package:services_client/models/worker_model.dart';
+import 'package:services_client/screens/book_worker.dart';
+import 'package:services_client/screens/booking_confirmed.dart';
+import 'package:services_client/screens/new_password.dart';
 import 'package:services_client/screens/worker_list.dart';
 
+import '../screens/address.dart';
 import '../screens/forgot_password.dart';
 import '../screens/login.dart';
 
@@ -52,22 +58,35 @@ class RouteGenerator {
         );
       case HelpSupport.routeName:
         return MaterialPageRoute(
-          builder: (context) => HelpSupport(),
+          builder: (context) => const HelpSupport(),
+        );
+      case NewPasswordScreen.routeName:
+        return MaterialPageRoute(
+          builder: (context) => NewPasswordScreen(email: args as String),
         );
       case WorkerList.routeName:
         return MaterialPageRoute(
-          builder: (context) => WorkerList(caetgoryId: args as String),
+          builder: (context) => WorkerList(categoryName: args as String),
         );
       case WorkerDetails.routeName:
         return MaterialPageRoute(
-          builder: (context) => WorkerDetails(workerId: args as String),
+          builder: (context) => WorkerDetails(worker: args as Worker),
         );
       case RatingsScreen.routeName:
         return MaterialPageRoute(builder: (context) => RatingsScreen());
-      // case SearchScreen.routeName:
-      //   return MaterialPageRoute(
-      //     builder: (context) => SearchScreen(),
-      //   );
+      case AddressScreen.routeName:
+        return MaterialPageRoute(
+          builder: (context) => const AddressScreen(),
+        );
+
+      case BookWorker.routeName:
+        return MaterialPageRoute(
+          builder: (context) => BookWorker(worker: args as Worker),
+        );
+      case BookingConfirmed.routeName:
+        return MaterialPageRoute(
+          builder: (context) => BookingConfirmed(booking: args as Booking),
+        );
       default:
         return errorRoute();
     }

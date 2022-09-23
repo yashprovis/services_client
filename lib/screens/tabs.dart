@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:services_client/constants.dart';
 
 import 'package:services_client/provider/tabs_provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+import '../provider/user_provider.dart';
 import 'tabs/booking.dart';
 import 'tabs/booking_history.dart';
 import 'tabs/home.dart';
@@ -24,20 +27,24 @@ class _TabsScreenState extends State<TabsScreen> {
     const ProfileScreen()
   ];
 
-  // @override
-  // void initState() {
-  //   init();
-  //   super.initState();
-  // }
+  @override
+  void initState() {
+    init();
+    super.initState();
+  }
 
-  // init() async {
-  //   UserProvider userProvider =
-  //       Provider.of<UserProvider>(context, listen: false);
-  //   OrderProvider orderProvider =
-  //       Provider.of<OrderProvider>(context, listen: false);
-  //   await userProvider.refreshUser();
-  //   await orderProvider.fetchCurrentOrders();
-  // }
+  init() async {
+    UserProvider userProvider =
+        Provider.of<UserProvider>(context, listen: false);
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String token = prefs.getString(tokenPref) ?? "";
+    if (token != "") {
+      setState(() {
+        headerApiMap["x-access-token"] = token;
+      });
+      await userProvider.refreshUser();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -17,8 +17,9 @@ class AddressTile extends StatelessWidget {
   Widget build(BuildContext context) {
     // UserProvider userProvider = Provider.of<UserProvider>(context);
     return Card(
-        elevation: 4,
-        margin: const EdgeInsets.only(bottom: 10, left: 6, right: 6),
+        elevation: 3,
+        margin: EdgeInsets.only(
+            bottom: 10, left: removable != null ? 0 : 6, right: 6),
         child: Padding(
           padding: const EdgeInsets.all(16),
           child: Column(
@@ -56,7 +57,7 @@ class AddressTile extends StatelessWidget {
                     addressSheet(context, address);
                   },
                   child: Container(
-                    margin: const EdgeInsets.only(top: 6),
+                    margin: const EdgeInsets.only(top: 10),
                     padding:
                         const EdgeInsets.symmetric(horizontal: 14, vertical: 3),
                     decoration: BoxDecoration(border: Border.all()),

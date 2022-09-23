@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:services_client/models/address_model.dart';
 
+import '../provider/user_provider.dart';
 import '../widgets/sc_button.dart';
 import '../widgets/sc_text.dart';
 import '../widgets/sheets/address_sheet.dart';
@@ -18,6 +19,7 @@ class AddressScreen extends StatefulWidget {
 class _AddressScreenState extends State<AddressScreen> {
   @override
   Widget build(BuildContext context) {
+    UserProvider userProvider = Provider.of<UserProvider>(context);
     //   UserProvider userProvider = Provider.of<UserProvider>(context);
     return Scaffold(
         backgroundColor: Colors.white,
@@ -39,17 +41,10 @@ class _AddressScreenState extends State<AddressScreen> {
               SizedBox(
                 height: MediaQuery.of(context).size.height - 150,
                 child: ListView.builder(
-                  itemCount: 2,
+                  itemCount: userProvider.getUser.address!.length,
                   itemBuilder: (context, index) {
-                    return const AddressTile(
-                        address: Address(
-                            id: "A001",
-                            name: "Provis Technologies",
-                            line1: "503, Signature Tower",
-                            line2: "Tink Phatak",
-                            city: "jaipur",
-                            state: "raj",
-                            pincode: "342001"));
+                    return AddressTile(
+                        address: userProvider.getUser.address![index]);
                   },
                 ),
               ),

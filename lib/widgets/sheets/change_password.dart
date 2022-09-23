@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:services_client/constants.dart';
+import 'package:services_client/helpers/methods.dart';
 
+import '../../services/user_service.dart';
 import '../sc_button.dart';
 import '../sc_text.dart';
 import '../sc_textfield.dart';
@@ -103,15 +105,25 @@ class _ChangePasswordSheetState extends State<ChangePasswordSheet> {
                       setState(() {
                         isLoading = true;
                       });
-                      try {
-                        // resultString = await UserService().changePassword(
-                        //     currentPassword: oldPassController.text.trim(),
-                        //     newPassword: newPassController.text.trim(),
-                        //     context: context);
-                      } catch (e) {}
-                      setState(() {
+                      FocusScope.of(context).unfocus();
+                      var data = await UserService().resetPassword(
+                          oldPassword: oldPassController.text.trim(),
+                          newPassword: newPassController.text.trim());
+                      if (data != null && data is Map) {
+                        showSnack(
+                            context: context,
+                            message: "Password Reset successful.",
+                            color: Colors.green);
+                        Navigator.of(context).pop();
+                      } else if (data != null && data is String) {
+                        resultString = data;
+                      } else {
+                        resultString = "Request Failed. Try again later.";
+                      }
+                      if (mounted) {
                         isLoading = false;
-                      });
+                        setState(() {});
+                      }
                     }
                   }),
               SizedBox(height: resultString == null ? 0 : 12),

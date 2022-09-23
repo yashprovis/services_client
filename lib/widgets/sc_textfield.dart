@@ -10,6 +10,7 @@ class ScTextField extends StatefulWidget {
   final TextInputType? type;
   final TextInputAction? action;
   final bool? isEnabled;
+  final int? maxLines;
   final Widget? suffixIcon;
   final void Function()? onSubmit;
   final void Function(String?)? func;
@@ -26,7 +27,8 @@ class ScTextField extends StatefulWidget {
       this.action,
       this.isEnabled,
       this.suffixIcon,
-      this.onSubmit})
+      this.onSubmit,
+      this.maxLines})
       : super(key: key);
 
   @override
@@ -45,6 +47,7 @@ class _ScTextFieldState extends State<ScTextField> {
           child: TextFormField(
             onEditingComplete: widget.onSubmit,
             controller: widget.controller,
+            maxLines: widget.maxLines ?? 1,
             focusNode: widget.node,
             autovalidateMode: widget.suffixIcon == null
                 ? AutovalidateMode.onUserInteraction

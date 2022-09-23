@@ -51,16 +51,16 @@ class _HelpSupportState extends State<HelpSupport> {
                 ],
               ),
             ),
-            SizedBox(height: 20),
-            Center(
-              child: const ScText(
+            const SizedBox(height: 20),
+            const Center(
+              child: ScText(
                 "FAQ",
                 color: primaryColor,
                 size: 40,
                 weight: FontWeight.w500,
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             ExpansionPanelList(
               elevation: 3,
               // Controlling the expansion behavior
@@ -69,7 +69,7 @@ class _HelpSupportState extends State<HelpSupport> {
                   items[index]['isExpanded'] = !isExpanded;
                 });
               },
-              animationDuration: Duration(milliseconds: 600),
+              animationDuration: const Duration(milliseconds: 600),
               children: items
                   .map(
                     (item) => ExpansionPanel(
@@ -78,15 +78,15 @@ class _HelpSupportState extends State<HelpSupport> {
                           ? secondaryLight.withOpacity(.3)
                           : Colors.white,
                       headerBuilder: (_, isExpanded) => Container(
-                          padding: EdgeInsets.symmetric(
+                          padding: const EdgeInsets.symmetric(
                               vertical: 15, horizontal: 30),
                           child: Text(
                             item['title'],
-                            style: TextStyle(fontSize: 20),
+                            style: const TextStyle(fontSize: 20),
                           )),
                       body: Container(
-                        padding:
-                            EdgeInsets.symmetric(vertical: 15, horizontal: 30),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 15, horizontal: 30),
                         child: Text(item['description']),
                       ),
                       isExpanded: item['isExpanded'],

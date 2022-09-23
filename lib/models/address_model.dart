@@ -1,5 +1,5 @@
 class Address {
-  final String id;
+  String? id;
   final String name;
   final String line1;
   final String line2;
@@ -7,8 +7,8 @@ class Address {
   final String state;
   final String pincode;
 
-  const Address({
-    required this.id,
+  Address({
+    this.id,
     required this.name,
     required this.line1,
     required this.line2,
@@ -17,9 +17,9 @@ class Address {
     required this.pincode,
   });
 
-  static Address fromSnap(Map<String, dynamic> json) {
+  static Address fromJson(Map<String, dynamic> json) {
     return Address(
-        id: json["id"],
+        id: json["_id"],
         name: json["name"],
         line1: json["line1"],
         line2: json["line2"],
@@ -29,7 +29,7 @@ class Address {
   }
 
   Map<String, dynamic> toJson() => {
-        "id": id,
+        "_id": id,
         "name": name,
         "line1": line1,
         "line2": line2,
@@ -37,4 +37,9 @@ class Address {
         "state": state,
         "pincode": pincode,
       };
+
+  @override
+  String toString() {
+    return "$name - $line1, $line2, $city, $state - $pincode";
+  }
 }
