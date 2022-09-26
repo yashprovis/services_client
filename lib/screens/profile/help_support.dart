@@ -30,7 +30,7 @@ class _HelpSupportState extends State<HelpSupport> {
           padding: const EdgeInsets.only(top: 56),
           child: ListView(padding: EdgeInsets.zero, children: [
             Padding(
-              padding: const EdgeInsets.only(left: 16, right: 16),
+              padding: const EdgeInsets.only(left: 16, right: 16, bottom: 22),
               child: Row(
                 children: [
                   GestureDetector(
@@ -44,23 +44,19 @@ class _HelpSupportState extends State<HelpSupport> {
                   const SizedBox(width: 16),
                   const ScText(
                     "Help and Support",
-                    // color: Colors.white,
                     size: 20,
-                    //   weight: FontWeight.w500,
                   )
                 ],
               ),
             ),
-            const SizedBox(height: 20),
-            const Center(
-              child: ScText(
-                "FAQ",
-                color: primaryColor,
-                size: 40,
-                weight: FontWeight.w500,
-              ),
+            Container(
+              height: 160,
+              margin: const EdgeInsets.only(bottom: 20),
+              decoration: BoxDecoration(gradient: appGradient),
+              alignment: Alignment.center,
+              padding: const EdgeInsets.all(20),
+              child: Image.asset("assets/images/logo.png"),
             ),
-            const SizedBox(height: 20),
             ExpansionPanelList(
               elevation: 3,
               // Controlling the expansion behavior
@@ -69,24 +65,22 @@ class _HelpSupportState extends State<HelpSupport> {
                   items[index]['isExpanded'] = !isExpanded;
                 });
               },
+              expandedHeaderPadding: EdgeInsets.zero,
               animationDuration: const Duration(milliseconds: 600),
               children: items
                   .map(
                     (item) => ExpansionPanel(
                       canTapOnHeader: true,
-                      backgroundColor: item['isExpanded'] == true
-                          ? secondaryLight.withOpacity(.3)
-                          : Colors.white,
+                      backgroundColor: Colors.white,
                       headerBuilder: (_, isExpanded) => Container(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 15, horizontal: 30),
-                          child: Text(
+                          padding: const EdgeInsets.only(
+                              top: 10, left: 30, right: 30),
+                          child: ScText(
                             item['title'],
-                            style: const TextStyle(fontSize: 20),
                           )),
                       body: Container(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 15, horizontal: 30),
+                        padding: const EdgeInsets.only(
+                            bottom: 10, left: 30, right: 30),
                         child: Text(item['description']),
                       ),
                       isExpanded: item['isExpanded'],

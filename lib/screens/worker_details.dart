@@ -299,7 +299,9 @@ class _WorkerDetailsState extends State<WorkerDetails> {
                                           child: TextButton.icon(
                                               onPressed: () {
                                                 Navigator.of(context).pushNamed(
-                                                    RatingsScreen.routeName);
+                                                    RatingsScreen.routeName,
+                                                    arguments:
+                                                        widget.worker.ratings);
                                               },
                                               icon: const Icon(
                                                 Icons.arrow_back_ios_rounded,
@@ -416,10 +418,13 @@ class _WorkerDetailsState extends State<WorkerDetails> {
                                                               CrossAxisAlignment
                                                                   .start,
                                                           children: [
-                                                            const SizedBox(
+                                                            SizedBox(
                                                               width: 130,
                                                               child: Text(
-                                                                "Yash",
+                                                                widget.worker
+                                                                            .ratings[
+                                                                        index][
+                                                                    "userName"],
                                                                 maxLines: 2,
                                                                 overflow:
                                                                     TextOverflow

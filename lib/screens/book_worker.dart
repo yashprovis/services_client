@@ -46,7 +46,7 @@ class _BookWorkerState extends State<BookWorker> {
 
   void setBookingTime() async {
     TimeOfDay? pickedTime = await showTimePicker(
-        initialEntryMode: TimePickerEntryMode.inputOnly,
+        initialEntryMode: TimePickerEntryMode.input,
         context: context,
         initialTime: TimeOfDay(hour: 0, minute: 0));
 

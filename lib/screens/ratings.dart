@@ -2,34 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:services_client/widgets/sc_text.dart';
-import '../models/review_model.dart';
 
 class RatingsScreen extends StatelessWidget {
+  final List reviews;
   static const routeName = "/ratings";
-  RatingsScreen({Key? key}) : super(key: key);
-  List<Reviews> reviews = [
-    Reviews(
-        id: "R001",
-        title: "Great Booking, loved it",
-        description:
-            "I really enjoyed my experience, Thank you so much. OK bye.",
-        date: DateTime.now(),
-        rating: 4.5),
-    Reviews(
-        id: "R002",
-        title: "Great Booking, loved it",
-        description:
-            "I really enjoyed my experience, Thank you so much. OK bye.",
-        date: DateTime.now(),
-        rating: 4.5),
-    Reviews(
-        id: "R003",
-        title: "Great Booking, loved it",
-        description:
-            "I really enjoyed my experience, Thank you so much. OK bye.",
-        date: DateTime.now(),
-        rating: 4.5),
-  ];
+  const RatingsScreen({Key? key, required this.reviews}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,9 +31,7 @@ class RatingsScreen extends StatelessWidget {
                   const SizedBox(width: 16),
                   const ScText(
                     "Reviews",
-                    // color: Colors.white,
                     size: 20,
-                    //   weight: FontWeight.w500,
                   )
                 ],
               ),
@@ -84,43 +60,21 @@ class RatingsScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Padding(
-                            padding: EdgeInsets.only(top: 2.0, bottom: 2),
+                        Padding(
+                            padding: const EdgeInsets.only(top: 2.0, bottom: 2),
                             child: CircleAvatar(
                               radius: 30,
                               child: Text(
-                                "YA",
-                                // args['reviews'][index]['node']['user']
-                                //             ['name']
-                                //         .substring(0, 1) +
-                                //     args['reviews'][index]['node']['user']
-                                //             ['name']
-                                //         .substring(
-                                //             args['reviews'][index]['node']
-                                //                     ['user']['name']
-                                //                 .indexOf(' '),
-                                //             args['reviews'][index]['node']
-                                //                         ['user']['name']
-                                //                     .indexOf(' ') +
-                                //                 2),
-                                style: TextStyle(
+                                reviews[index]["userName"]
+                                    .toString()
+                                    .substring(0, 2),
+                                style: const TextStyle(
                                     fontWeight: FontWeight.w500,
                                     fontSize: 20,
                                     letterSpacing: -.8,
                                     color: Colors.white),
                               ),
-                            )
-                            // : CircleAvatar(
-                            //     radius: 30,
-                            //     backgroundImage: NetworkImage(
-                            //         args['reviews'][index]['node']['user']
-                            //                             ['userProfiles']
-                            //                         ['edges']
-                            //                     [0]['node']
-                            //                 ['profileImagesByProfileId']
-                            //             ['edges'][0]['node']['url']),
-                            //   ),
-                            ),
+                            )),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -131,15 +85,16 @@ class RatingsScreen extends StatelessWidget {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  const Text(
-                                    "Yash",
-                                    style: TextStyle(
+                                  Text(
+                                    reviews[index]["userName"],
+                                    style: const TextStyle(
                                         fontSize: 18,
                                         fontWeight: FontWeight.w500),
                                   ),
                                   Text(
-                                    intl.DateFormat.yMMMd()
-                                        .format(reviews[index].date),
+                                    intl.DateFormat.yMMMd().format(
+                                        DateTime.parse(
+                                            reviews[index]["ratingDate"])),
                                     style: const TextStyle(
                                         color: Color(0xFF9FA8B0), fontSize: 14),
                                   )
@@ -150,7 +105,8 @@ class RatingsScreen extends StatelessWidget {
                               padding:
                                   const EdgeInsets.symmetric(vertical: 3.0),
                               child: RatingBar(
-                                initialRating: reviews[index].rating,
+                                initialRating:
+                                    reviews[index]["stars"].toDouble(),
                                 minRating: 0,
                                 glow: false,
                                 ignoreGestures: true,
@@ -182,7 +138,7 @@ class RatingsScreen extends StatelessWidget {
                               padding: const EdgeInsets.only(right: 10),
                               width: MediaQuery.of(context).size.width - 115,
                               child: Text(
-                                reviews[index].description,
+                                reviews[index]["desc"],
                                 maxLines: 4,
                                 overflow: TextOverflow.ellipsis,
                                 style: const TextStyle(

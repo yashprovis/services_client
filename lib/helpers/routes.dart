@@ -73,7 +73,8 @@ class RouteGenerator {
           builder: (context) => WorkerDetails(worker: args as Worker),
         );
       case RatingsScreen.routeName:
-        return MaterialPageRoute(builder: (context) => RatingsScreen());
+        return MaterialPageRoute(
+            builder: (context) => RatingsScreen(reviews: args as List));
       case AddressScreen.routeName:
         return MaterialPageRoute(
           builder: (context) => const AddressScreen(),
